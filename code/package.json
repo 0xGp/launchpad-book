@@ -1,0 +1,1 @@
+{"name":"launchpad-book-code","private":true,"type":"module","scripts":{"test":"for f in *.test.ts; do tsx $f || exit 1; done"}}

@@ -1,0 +1,50 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Welcome and the map · Build a Solana Launchpad</title>
+<link rel="stylesheet" href="../assets/katex/katex.min.css">
+<link rel="stylesheet" href="../assets/style.css">
+</head><body class="">
+<header class="topbar"><button class="menu" type="button" aria-controls="sidebar" aria-expanded="false" aria-label="Open chapter menu">☰</button>
+<a class="top-title" href="../index.html">The Builder's Library</a><span class="top-sub">by Godspower Ufot</span></header>
+<div class="layout"><nav class="sidebar" id="sidebar" aria-label="Chapters">
+  <a class="brand" href="../index.html">📚 The Builder's Library</a>
+  <div class="book-name">Book 1 &middot; Build a Solana Launchpad</div>
+  <input class="filter" type="search" placeholder="Filter chapters…" aria-label="Filter chapters">
+  <div class="group"><div class="group-title">Start</div><ul><li><a href="index.html" aria-current="page" class="active"><span class="num">0</span>Welcome and the map</a></li></ul></div><div class="group"><div class="group-title">On-chain: the contract</div><ul><li><a href="01-architecture.html"><span class="num">1</span>Architecture: pump.fun vs Meteora DBC</a></li><li><a href="02-curve-math.html"><span class="num">2</span>Bonding-curve math: virtual reserves, bigint and rounding</a></li><li><a href="03-fees-slippage.html"><span class="num">3</span>Fees and slippage</a></li><li><a href="04-graduation.html"><span class="num">4</span>Graduation and migration</a></li><li><a href="05-accounts-pdas.html"><span class="num">5</span>Accounts and PDAs</a></li><li><a href="06-security.html"><span class="num">6</span>Security pitfalls</a></li></ul></div><div class="group"><div class="group-title">Backend: indexer & API</div><ul><li><a href="07-indexer.html"><span class="num">7</span>The indexer</a></li></ul></div><div class="group"><div class="group-title">Frontend: charts</div><ul><li><a href="08-api-charts.html"><span class="num">8</span>The API and realtime charts</a></li></ul></div><div class="group"><div class="group-title">Capstone: build it</div><ul><li><a href="09-1-capstone-engine.html"><span class="num">9.1</span>Capstone 1: the curve engine</a></li><li><a href="09-2-capstone-program.html"><span class="num">9.2</span>Capstone 2: the program state machine and idempotent migrate</a></li><li><a href="09-3-capstone-pipeline.html"><span class="num">9.3</span>Capstone 3 (stub): events → indexer → API</a></li></ul></div><div class="group"><div class="group-title">Appendices</div><ul><li><a href="a-glossary.html"><span class="num">A</span>Glossary</a></li><li><a href="b-resources.html"><span class="num">B</span>Resources</a></li><li><a href="c-exercises.html"><span class="num">C</span>Exercises index</a></li></ul></div>
+  </nav><main class="content"><p class="kicker">Part 0 · Start here</p><h1>Welcome and the map</h1><p class="lede">This book teaches you, a junior developer who knows some TypeScript, how to build a Solana <strong>bonding-curve launchpad</strong> end to end: the on-chain program, the indexer and API, and the live chart in the browser. It's written from Godspower's daily launchpad classes, and every number is checked with code.</p>
+<h2>How every chapter works</h2>
+<ol><li><strong>Everyday analogy:</strong> a market trader, a danfo bus, a cricket scoreboard. The picture comes first.</li>
+<li><strong>Design question:</strong> try it yourself, then open <em>Reveal answer</em>.</li>
+<li><strong>Simple explanation:</strong> the idea in plain words.</li>
+<li><strong>The math:</strong> rendered formulas with worked numbers.</li>
+<li><strong>TypeScript code:</strong> real files you can download and run.</li>
+<li><strong>Exercise:</strong> build it yourself, with a solution to check against.</li>
+<li><strong>Architecture diagram:</strong> the picture of the system.</li>
+<li><strong>Sources:</strong> the real docs, so you can check every claim.</li></ol>
+<h2>Two kinds of facts</h2>
+<p><span class="tag real" title="A real project's documented design">Real: pump.fun docs</span> <strong>green</strong> means a real project's documented design. <span class="tag clone" title="Our teaching design, not a real project's code">General pattern / our clone</span> <strong>purple</strong> means our teaching design, a general pattern we chose. <span class="tag reading" title="Our interpretation; not stated by the project">Our reading (unverified)</span> <strong>amber</strong> means our interpretation of a project's code, which the project hasn't confirmed. We never present a purple fact as pump.fun's or Meteora's actual code.</p>
+<h2>The map of the whole system</h2>
+<div class="flow">
+<div class="box"><b>1. On-chain program (the contract)</b><br>Global config + one curve account per coin (PDAs). Instructions <code>create</code>, <code>buy</code>, <code>sell</code>, <code>migrate</code>. Curve math, fees, slippage checks, graduation. Chapters 1 to 6.</div>
+<div class="arrow">emits events (TradeEvent, CompleteEvent, MigrateEvent) ↓</div>
+<div class="box"><b>2. Indexer (backend)</b><br>WebSocket for live data + RPC backfill for gaps → raw transactions → decoded trades in Postgres, keyed by <code>(signature, ix_path)</code>. Chapter 7.</div>
+<div class="arrow">serves candles with an <code>as_of</code> cursor ↓</div>
+<div class="box"><b>3. API + realtime (backend → frontend)</b><br>Server-built OHLCV candles, plus a WebSocket of new trades. Chapter 8.</div>
+<div class="arrow">snapshot + live merge ↓</div>
+<div class="box"><b>4. Frontend</b><br>Token page: quote with slippage, wallet signs, and a Lightweight Charts candle chart that never skips or double-counts a trade. Chapters 3 and 8.</div>
+<div class="arrow">↓ then you build it all</div>
+<div class="box"><b>5. Capstone</b><br>Curve engine → program state machine → events piped into the indexer and API. Chapter 9.</div>
+</div>
+<h2>Run the code</h2>
+<p>Every <code>.ts</code> file in this book is in the <a href="../code/index.html">code/</a> folder next to the site, and every test passed when the book was built.</p>
+<div class="code"><div class="code-title"><span>terminal</span><button class="copy" type="button">Copy</button></div><pre><code class="hljs language-bash"><span class="hljs-built_in">cd</span> code
+npm i -D tsx typescript @types/node @solana/kit
+npx tsx engine.test.ts      <span class="hljs-comment"># chapter 2 + capstone 1 numbers</span>
+npx tsx program.test.ts     <span class="hljs-comment"># capstone 2: idempotent migrate</span>
+npx tsx fees.test.ts        <span class="hljs-comment"># chapter 3</span>
+npx tsx pdas.test.ts        <span class="hljs-comment"># chapter 5: pump.fun Global PDA</span>
+npx tsx security.test.ts    <span class="hljs-comment"># chapter 6</span>
+npx tsx pipeline.test.ts    <span class="hljs-comment"># chapters 7-8 + capstone 3 stub</span></code></pre></div>
+<div class="callout tip"><strong>Numbers you'll see again and again</strong> (pump.fun defaults, our formula): 1 SOL buys ≈ <strong>34,612,903.225806</strong> tokens · ≈ <strong>85.005 SOL</strong> buys out the curve · a 10M-token buy costs <strong>285,042,334</strong> lamports including the 1% fee.</div><nav class="prevnext"><span></span>
+  <a class="next" href="01-architecture.html"><small>Next →</small><span>Architecture: pump.fun vs Meteora DBC</span></a></nav></main></div>
+<script src="../assets/app.js"></script></body></html>
